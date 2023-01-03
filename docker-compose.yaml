@@ -1,0 +1,23 @@
+version: '3.9'
+
+# LOCAL DEV
+
+services:
+  crashi:
+    container_name: crashi
+    user: 1000:1000
+    environment:
+      - CRASH_SCHEDULE=0-6 * * * *
+    build:
+      dockerfile: dev.dockerfile
+    ports:
+      - 5005:5005
+    command: uvicorn app:app --reload --host=0.0.0.0 --port=5005
+    volumes:
+      # Mount local codebase to reflect changes for local dev
+      - ./:/app/
+    healthcheck:
+      test: [ "CMD", "curl", "localhost:5005/api/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
