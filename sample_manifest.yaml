@@ -29,7 +29,7 @@ spec:
         - --port=5005
         env:
         - name: CRASH_SCHEDULE
-          value: "* * * * *"
+          value: "55-59 * * * *"
         - name: SIM_ENV_MISSING
           value: "NO"
         - name: SIM_HIDDEN_ENV_MISSING
