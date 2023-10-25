@@ -7,7 +7,10 @@ services:
     container_name: crashi
     user: 1000:1000
     environment:
-      - CRASH_SCHEDULE=0-30 * * * *
+      # - CRASH_SCHEDULE=0-30 * * * *
+      - CRASH_SCHEDULE=55-59 * * * *
+      - SIM_HIDDEN_ENV_MISSING=YES
+      - SIM_ENV_MISSING=NO
     build:
       dockerfile: dev.dockerfile
     ports:

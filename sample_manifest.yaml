@@ -30,6 +30,10 @@ spec:
         env:
         - name: CRASH_SCHEDULE
           value: "* * * * *"
+        - name: SIM_ENV_MISSING
+          value: "NO"
+        - name: SIM_HIDDEN_ENV_MISSING
+          value: "YES"
         image: ghcr.io/jon-funk/crashi:latest
         imagePullPolicy: Always
         name: crashi
