@@ -1,0 +1,32 @@
+# Used for testing the crashi API periodically, and generate noise in logs
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: simenv-cronjob
+spec:
+  schedule: "*/10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: curl-container
+            image: curlimages/curl
+            command:
+            - /bin/sh
+            - -c
+            - curl http://crashi/api/simenv
+          restartPolicy: OnFailure
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crashi
+spec:
+  selector:
+    app: crashi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5005
