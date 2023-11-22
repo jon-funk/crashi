@@ -30,10 +30,11 @@ def format_single_line_traceback():
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
-    logger.error(f"Exception: {exc.detail.replace('\n', '; ')}")
+    excp_content = exc.detail.replace('\n', '; ')
+    logger.error(f"Exception: {excp_content}")
     return JSONResponse(
         status_code=exc.status_code,
-        content={"message": exc.detail.replace('\n', '; ')},
+        content={"message": excp_content},
     )
 
 @app.get("/api/health")
