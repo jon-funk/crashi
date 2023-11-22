@@ -21,12 +21,19 @@ app = FastAPI(
     version="v0.1",
 )
 
+
+def format_single_line_traceback():
+    """
+    Formats the stack trace into a single line string.
+    """
+    return traceback.format_exc().replace('\n', '; ')
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
-    logger.error(f"Exception: {exc.detail}")
+    logger.error(f"Exception: {exc.detail.replace('\n', '; ')}")
     return JSONResponse(
         status_code=exc.status_code,
-        content={"message": exc.detail},
+        content={"message": exc.detail.replace('\n', '; ')},
     )
 
 @app.get("/api/health")
@@ -49,9 +56,12 @@ async def sim_env():
         try:
             raise Exception("Endpoint has encountered a fatal error while processing the request.")
         except Exception as e:
-            stack_trace = traceback.format_exc()
-            # Dynamic evaluation of SIM_CATCHALL_RSP with stack trace
-            detail_message = SIM_CATCHALL_RSP.format(req_date=datetime.now(), SIM_HIDDEN_ENV_MISSING=SIM_HIDDEN_ENV_MISSING, stack_trace=stack_trace)
+            stack_trace = format_single_line_traceback()
+            detail_message = SIM_CATCHALL_RSP.format(
+                req_date=datetime.now(), 
+                SIM_HIDDEN_ENV_MISSING=SIM_HIDDEN_ENV_MISSING, 
+                stack_trace=stack_trace
+            ).replace('\n', '; ')
             raise HTTPException(
                 status_code=500,
                 detail=detail_message
