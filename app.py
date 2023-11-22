@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 CRASH_SCHEDULE = os.getenv("CRASH_SCHEDULE", "* * * * *")
 SIM_ENV_MISSING = os.getenv("SIM_ENV_MISSING", "NO")
 SIM_HIDDEN_ENV_MISSING = os.getenv("SIM_HIDDEN_ENV_MISSING", "NO")
-SIM_CATCHALL_RSP = os.getenv("SIM_CATCHALL_RSP", "This internal server error at {req_date} is expected as SIM_HIDDEN_ENV_MISSING is set to {SIM_HIDDEN_ENV_MISSING} indicating that a missing feature flag environment variable should be set. {stacktrace}")
+SIM_CATCHALL_RSP = os.getenv("SIM_CATCHALL_RSP", "This internal server error at {req_date} is expected as SIM_HIDDEN_ENV_MISSING is set to {SIM_HIDDEN_ENV_MISSING} indicating that a missing feature flag environment variable should be set. {stack_trace}")
 
 logger = logging.getLogger(__name__)
 logger.info(f"Crash schedule set to: {CRASH_SCHEDULE}\nSimulating missing env crash: {SIM_ENV_MISSING}\nSimulating hidden missing env: {SIM_HIDDEN_ENV_MISSING}")
